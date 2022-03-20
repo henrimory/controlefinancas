@@ -1,8 +1,11 @@
 package com.henrique.controlefinancas.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.henrique.controlefinancas.exception.ErroAutenticacao;
 import com.henrique.controlefinancas.exception.RegraNegocioException;
 import com.henrique.controlefinancas.model.entity.Usuario;
 import com.henrique.controlefinancas.model.repository.UsuarioRepository;
@@ -23,8 +26,16 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public Usuario autenticar(String email, String senha) {
+		Optional<Usuario> usuario = repository.findByEmail(email);
 		
-		return null;
+		if(!usuario.isPresent()) {
+			throw new ErroAutenticacao("Usuário não Encontrado para o email o email informado.");
+		}
+		
+		if(!usuario.get().getSenha().equals(senha)) {
+			throw new ErroAutenticacao("Senha inválida.");
+		}
+		return usuario.get();
 	}
 
 	@Override
