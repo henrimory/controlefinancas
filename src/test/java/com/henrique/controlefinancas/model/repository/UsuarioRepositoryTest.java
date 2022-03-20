@@ -1,5 +1,7 @@
 package com.henrique.controlefinancas.model.repository;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 
 
@@ -33,7 +35,7 @@ public class UsuarioRepositoryTest {
 	@Test
 	public void deveVerificarAExistenciaDeUmEmail() {
 		// cenário		
-		Usuario usuario = Usuario.builder().nome("usuario").email("usuario@email.com").build();	
+		Usuario usuario = criarUsuario();
 		entityManager.persist(usuario);
 		
 		// ação/execução
@@ -55,6 +57,49 @@ public class UsuarioRepositoryTest {
 		
 		//verificação
 		Assertions.assertThat(result).isFalse();
+	}
+	
+	@Test
+	public void devePersistirUmUsuarioNaBaseDeDados() {
+		//cenario
+		Usuario usuario = criarUsuario();
+		//ação
+		Usuario usuarioSalvo = repository.save(usuario);
+		
+		//verificação		
+		Assertions.assertThat(usuarioSalvo.getId()).isNotNull();
+		
+	}
+	
+	@Test
+	public void deveBuscarUmUsuarioPorEmail() {
+		//cenário
+		Usuario usuario = criarUsuario();
+		entityManager.persist(usuario);
+		
+		//verificação
+		Optional<Usuario> result = repository.findByEmail("usuario@email.com");
+		
+		Assertions.assertThat(result.isPresent()).isTrue();
+	}
+	
+	@Test
+	public void deveRetornarVazioAoBuscarUsuarioPorEmailQuandoNaoExisteNaBase() {
+				
+		//verificação
+		Optional<Usuario> result = repository.findByEmail("usuario@email.com");
+		
+		Assertions.assertThat(result.isPresent()).isFalse();
+	}
+	
+	public static Usuario criarUsuario() {
+		return   Usuario
+				.builder()
+				.nome("usuario")
+				.email("usuario@email.com")
+				.senha("senha")
+				.build();
+		
 	}
 	
 
