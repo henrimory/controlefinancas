@@ -37,7 +37,7 @@ public class UsuarioRepositoryTest {
 	}
 	
 	@Test
-	public void deveRetornarFalsoQuandoNaoHouverUsuarioCadastradoComEmail() {
+	public void deveRetornarFalsoQuandoNaoHouverUsuarioCadastradoComOEmail() {
 		//cenário
 		repository.deleteAll();
 		

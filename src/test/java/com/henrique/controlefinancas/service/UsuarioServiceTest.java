@@ -25,12 +25,14 @@ public class UsuarioServiceTest {
 	
 	@Test
 	public void deveValidarEmail() {
-		
-		//cenário
-		repository.deleteAll();
-		
-		//ação
-		service.validarEmail("email@email.com");
+		Assertions.assertDoesNotThrow(() -> {
+			//cenário
+			repository.deleteAll();
+			
+			//ação
+			service.validarEmail("email@email.com");
+			
+		});
 		
 	}
 	
