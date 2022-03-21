@@ -4,6 +4,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.aspectj.lang.annotation.Before;
@@ -16,7 +17,7 @@ import com.henrique.controlefinancas.exception.RegraNegocioException;
 import com.henrique.controlefinancas.model.repository.UsuarioRepository;
 import com.henrique.controlefinancas.service.impl.UsuarioServiceImpl;
 
-//@SpringBootTest
+@SpringBootTest
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 public class UsuarioServiceTest {
@@ -24,12 +25,14 @@ public class UsuarioServiceTest {
 	@Autowired
 	UsuarioService service;
 	
-	@Autowired
+		
+	//@Autowired
+	@MockBean
 	UsuarioRepository repository;
 	
 	@BeforeEach
 	public void setUp() {
-		repository = Mockito.mock(UsuarioRepository.class);
+		//repository = Mockito.mock(UsuarioRepository.class);
 		service = new UsuarioServiceImpl(repository);
 		
 	}
